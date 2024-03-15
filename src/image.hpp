@@ -12,7 +12,7 @@ struct Image
 
     Image(int width, int height) : width(width), height(height), data(width * height) {}
 
-    void setPixel(int x, int y, float r, float g, float b);
+    void setPixel(int x, int y, Color color);
 
     float getR(int x, int y) const;
 

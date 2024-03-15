@@ -1,27 +1,27 @@
 #include "image.hpp"
 #include "vec3.hpp"
 
-void Image::setPixel(int x, int y, float r, float g, float b)
+void Image::setPixel(int x, int y, Color color)
 {
     if (x >= 0 && x < width && y >= 0 && y < height)
     {
-        data[x + y * width] = Color(r, g, b);
+        data[x + y * width] = color;
     }
 }
 
 float Image::getR(int x, int y) const
 {
-    return data[x + y * width].x;
+    return data[x + y * width].x();
 }
 
 float Image::getG(int x, int y) const
 {
-    return data[x + y * width].y;
+    return data[x + y * width].y();
 }
 
 float Image::getB(int x, int y) const
 {
-    return data[x + y * width].z;
+    return data[x + y * width].z();
 }
 
 void Image::save(const std::string &filename) const
@@ -33,9 +33,9 @@ for (int j = height - 1; j >= 0; j--)
 {
     for (int i = 0; i < width; i++)
     {
-        ofs << static_cast<int>(255.999 * data[i + j * width].x) << ' '
-            << static_cast<int>(255.999 * data[i + j * width].y) << ' '
-            << static_cast<int>(255.999 * data[i + j * width].z) << '\n';
+        ofs << static_cast<int>(255.999 * data[i + j * width].x()) << ' '
+            << static_cast<int>(255.999 * data[i + j * width].y()) << ' '
+            << static_cast<int>(255.999 * data[i + j * width].z()) << '\n';
     }
 }
     ofs.close();
