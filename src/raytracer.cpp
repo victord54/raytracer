@@ -43,10 +43,10 @@ int main(int argc, char const *argv[])
 {
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
-    const int width = 1920;
+    const int width = 1280;
     const float aspectRatio = 16.0 / 9.0;
 
-    int ns = 100; // Number of samples per pixel
+    int ns = 5; // Number of samples per pixel
 
     Image image(width, static_cast<int>(width / aspectRatio));
 
