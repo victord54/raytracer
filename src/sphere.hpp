@@ -7,9 +7,10 @@ struct Sphere : public Hittable
 {
     Point3 center;
     float radius;
+    Material *material;
 
     Sphere() {}
-    Sphere(Point3 center, float radius) : center(center), radius(radius) {}
+    Sphere(Point3 center, float radius, Material *material) : center(center), radius(radius), material(material) {}
 
     virtual bool hit(const Ray &r, float t_min, float t_max, HitRecord &rec) const override
     {
@@ -33,6 +34,7 @@ struct Sphere : public Hittable
         }
         rec.t = t;
         rec.p = r.at(t);
+        rec.material = material;
         rec.normal = (rec.p - center) / radius;
         return true;
     }

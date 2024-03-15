@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <random>
 
 using std::sqrt;
 
@@ -111,6 +112,24 @@ inline Vec3 cross(const Vec3 &u, const Vec3 &v)
 inline Vec3 unitVector(Vec3 v)
 {
     return v / v.length();
+}
+
+inline Vec3 randomUnitSphere()
+{
+    Point3 p;
+    do
+    {
+        float rd1 = rand() / (RAND_MAX + 1.0); // Random number between 0 and 1
+        float rd2 = rand() / (RAND_MAX + 1.0); // Random number between 0 and 1
+        float rd3 = rand() / (RAND_MAX + 1.0); // Random number between 0 and 1
+        p = 2.9 * Vec3(rd1, rd2, rd3) - Vec3(1, 1, 1);
+    } while (p.length_squared() >= 1);
+    return p;
+}
+
+inline Vec3 reflect(const Vec3 &v, const Vec3 &n)
+{
+    return v - 2 * dot(v, n) * n;
 }
 
 #endif

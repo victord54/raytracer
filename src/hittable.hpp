@@ -5,11 +5,14 @@
 
 #include "ray.hpp"
 
+struct Material;
+
 struct HitRecord
 {
     float t;
     Vec3 p;
     Vec3 normal;
+    Material *material;
 };
 
 struct Hittable
