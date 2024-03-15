@@ -4,13 +4,15 @@
 #include <string>
 #include <chrono>
 #include <cmath>
+#include <random>
 
 #include "image.hpp"
 #include "vec3.hpp"
 #include "ray.hpp"
 #include "sphere.hpp"
+#include "camera.hpp"
 
-Color color(Ray r)
+Color render(Ray r)
 {
     Sphere sphere(Point3(0.0, 0.0, -1.0), 0.5);
     Sphere sphere2(Point3(0.0, -100.5, -1.0), 100);
@@ -38,25 +40,35 @@ int main(int argc, char const *argv[])
     const int width = 1280;
     const float aspectRatio = 16.0 / 9.0;
 
-    Image image(1280, static_cast<int>(width / aspectRatio));
+    int ns = 1; // Number of samples per pixel
 
-    Point3 lowerLeftCorner(-2, -1, -1);
-    float viewportWidth = 4;
-    float viewportHeight = viewportWidth / aspectRatio;
-
-    Point3 origin(0, 0, 0);
+    Image image(width, static_cast<int>(width / aspectRatio));
 
 #pragma omp parallel for
     for (int j = 0; j < image.height; j++)
     {
         for (int i = 0; i < image.width; i++)
         {
-            float u = float(i) / (image.width);
-            float v = float(j) / (image.height);
+            Color col(0, 0, 0);
+            for (int s = 0; s < ns; s++)
+            {
+                // Normalize the pixel coordinates
+                float rand1 = float(std::rand()) / RAND_MAX; // Random number between 0 and 1
+                float rand2 = float(std::rand()) / RAND_MAX; // Random number between 0 and 1
+                if (ns == 1)
+                {
+                    rand1 = 0.0;
+                    rand2 = 0.0;
+                }
+                float u = float(i + rand1) / (image.width);
+                float v = float(j + rand2) / (image.height);
 
-            Ray r(origin, lowerLeftCorner + Vec3(u * viewportWidth, v * viewportHeight, 0) - origin);
-            Color col = color(r);
+                Camera camera(aspectRatio);
 
+                Ray r = camera.getRay(u, v);
+                col += render(r);
+            }
+            col /= float(ns);
             image.setPixel(i, j, col);
         }
     }
