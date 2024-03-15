@@ -19,9 +19,4 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
 endif()
 
-# Add stb library
-# add_library(stb INTERFACE)
-# target_include_directories(stb INTERFACE "lib/stb")
-
 add_executable(raytracer ${SOURCES} ${HEADERS})
-# target_link_libraries(raytracer stb)
