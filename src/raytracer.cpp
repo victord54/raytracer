@@ -8,17 +8,27 @@
 #include "image.hpp"
 #include "vec3.hpp"
 #include "ray.hpp"
+#include "sphere.hpp"
 
 Color color(Ray r)
 {
-    float t = r.hitSphere(Point3(0, 0, -1), 0.5);
-    if (t > 0)
+    Sphere sphere(Point3(0.0, 0.0, -1.0), 0.5);
+    Sphere sphere2(Point3(0.0, -100.5, -1.0), 100);
+    HitRecord rec;
+    HittableList world;
+    world.add(&sphere);
+    world.add(&sphere2);
+    if (world.hit(r, 0, INFINITY, rec))
     {
-        Vec3 N = unitVector(r.at(t) - Vec3(0, 0, -1));
-        return 0.5 * Color(N.x() + 1, N.y() + 1, N.z() + 1);
+        return 0.5 * Color(rec.normal.x() + 1, rec.normal.y() + 1, rec.normal.z() + 1);
     }
-    t = 0.5 * (r.direction.y() + 1.0);
-    return (1.0 - t) * Color(1.0, 1.0, 1.0) + t * Color(0.5, 0.7, 1.0);
+    else
+    {
+        Vec3 unitDirection = unitVector(r.direction);
+        float t = 0.5 * (unitDirection.y() + 1.0);
+        return (1.0 - t) * Color(1, 1, 1) + t * Color(0.5, 0.7, 1.0);
+    
+    }
 }
 
 int main(int argc, char const *argv[])

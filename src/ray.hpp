@@ -1,3 +1,6 @@
+#ifndef RAY_HPP
+#define RAY_HPP
+
 #include "vec3.hpp"
 
 struct Ray
@@ -30,3 +33,5 @@ struct Ray
         }
     }
 };
+
+#endif

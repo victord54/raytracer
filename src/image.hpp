@@ -1,3 +1,6 @@
+#ifndef IMAGE_HPP
+#define IMAGE_HPP
+
 #include <vector>
 #include <string>
 #include <fstream>
@@ -22,3 +25,5 @@ struct Image
 
     void save(const std::string &filename) const;
 };
+
+#endif
